@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 
 const Container = styled.div`
   height: ${props => props.height};
-  display: flex;
-  justify-content: center;
+  position: relative;
 `;
 
 const Content = styled.div`
   z-index: 1;
   height: 100%;
-  width: 70%;
+  width: 100%;
   padding: 20px;
   margin-top: 250px;
   // background-color: white;

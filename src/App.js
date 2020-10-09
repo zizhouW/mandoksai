@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import Zheng from './components/zheng/Zheng';
-import Windmill from './components/windmill/Windmill';
-import BalanceBall from './components/balance-ball/BalanceBall';
-import Card from './components/card/Card';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from "react-router-dom";
 import Clouds from './components/clouds/Clouds';
 import Sidebar from './components/sidebar/Sidebar';
 import AboutMe from './pages/AboutMe';
+import Home from './pages/Home';
+import Random from './pages/Random';
+import Resume from './pages/Resume';
 import styled from 'styled-components';
 import {ReactComponent as MenuSvg} from './svg/menu.svg';
 import {ReactComponent as SunSvg} from './svg/sun.svg';
@@ -13,7 +18,7 @@ import {ReactComponent as LinkedInSvg} from './svg/linkedin.svg';
 import {ReactComponent as MailSvg} from './svg/mail.svg';
 
 const Container = styled.div`
-  background-color: #ccebff;
+  background-color: #e6f7ff;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -62,42 +67,56 @@ const Contact = styled.div`
   }
 `;
 
+const Routes = [{
+  path: '/about',
+  page: <AboutMe />,
+}, {
+  path: '/resume',
+  page: <Resume />,
+}, {
+  path: '/random',
+  page: <Random />,
+}, {
+  path: '/',
+  page: <Home />,
+}];
 
 function App() {
   // const [rotateIndex, setRotateIndex] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <Container className="App" >
-      <Sidebar
-        isOpen={isSidebarOpen}
-        closeSidebar={() => setIsSidebarOpen(false)}
-        page={
-          <React.Fragment>
-            <Clouds height={600}>
-              {!isSidebarOpen && <SidebarToggle onClick={() => setIsSidebarOpen(true)} />}
-              <Icon>Z</Icon>
-              <Contact>
-                <LinkedInSvg onClick={() => {
-                  window.open('https://www.linkedin.com/in/zz3wang/', '_blank');
-                }} />
-                <MailSvg onClick={() => window.location.href = "mailto:wangzizhou96@gmail.com"}/>
-              </Contact>
-              <AboutMe />
-              {/* <Zheng color="blue"/>
-              <BalanceBall />
-              <BalanceBall />
-              <BalanceBall />
-              <BalanceBall />
-              <BalanceBall />
-              <BalanceBall />
-              <BalanceBall />
-              <BalanceBall />
-              <BalanceBall />
-              <BalanceBall /> */}
-            </Clouds>
-          </React.Fragment>
-        }
-      />
+      <Clouds height={600}>
+        <Router>
+          {!isSidebarOpen && <SidebarToggle onClick={() => setIsSidebarOpen(true)} />}
+          <Icon>Z</Icon>
+          <Contact>
+            <LinkedInSvg onClick={() => {
+              window.open('https://www.linkedin.com/in/zz3wang/', '_blank');
+            }} />
+            <MailSvg onClick={() => window.location.href = "mailto:wangzizhou96@gmail.com"}/>
+          </Contact>
+          <Sidebar
+            isOpen={isSidebarOpen}
+            closeSidebar={() => setIsSidebarOpen(false)}
+            links={[
+              <Link to="/" onClick={() => setIsSidebarOpen(false)}>Home</Link>,
+              <Link to="/about" onClick={() => setIsSidebarOpen(false)}>About Me</Link>,
+              <Link to="/resume" onClick={() => setIsSidebarOpen(false)}>Resume</Link>,
+              <Link to="/random" onClick={() => setIsSidebarOpen(false)}>Random</Link>,
+            ]}
+            page={
+              <Switch>
+                {Routes.map((route) => (
+                  <Route path={route.path}>
+                    {route.page}
+                  </Route>
+                ))}
+              </Switch>
+            }
+          />
+        </Router>
+      </Clouds>
     </Container>
   );
 }

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import {ReactComponent as Close} from '../../svg/close.svg';
 
 const CloseSidebarToggle = styled(Close)`
@@ -15,7 +15,8 @@ const CloseSidebarToggle = styled(Close)`
   }
 `;
 
-const Page = styled.div`
+const Pages = styled.div`
+  margin-left: 300px;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -34,7 +35,10 @@ const SidebarRoutes = styled.div`
 
 const SidebarRoute = styled.div`
   width: fit-content;
-  // background: #ccebff;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  // background: #e6f7ff;
   &:not(:last-child) {
     margin-bottom: 40px;
   }
@@ -49,26 +53,25 @@ const SidebarEl = styled.div`
   transition: left .15s ease-out;
   z-index: 99;
   box-sizing: border-box;
-  // background: #ccebff;
+  // background: #e6f7ff;
 `;
 
-const Sidebar = ({page, isOpen, closeSidebar}) => (
+const Sidebar = ({links, page, isOpen, closeSidebar}) => (
   <React.Fragment>
     <SidebarEl isOpen={isOpen}>
       <CloseSidebarToggle onClick={closeSidebar} />
       <SidebarRoutes>
-        <SidebarRoute>Home</SidebarRoute>
-        <SidebarRoute>About Me</SidebarRoute>
-        <SidebarRoute>Resume</SidebarRoute>
-        <SidebarRoute>Random Stuff</SidebarRoute>
+        {links.map((link)=> (
+          <SidebarRoute>{link}</SidebarRoute>
+        ))}
       </SidebarRoutes>
     </SidebarEl>
-    <Page
+    <Pages
       isOpen={isOpen}
       onClick={() => isOpen && closeSidebar()}
     >
       {page}
-    </Page>
+    </Pages>
   </React.Fragment>
 );
 

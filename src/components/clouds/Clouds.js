@@ -45,7 +45,7 @@ const Container = styled.div`
   position: relative;
   overflow-y: visible;
   overflow-x: hidden;
-  background-color: #ccebff;
+  background-color: #e6f7ff;
   // z-index: -1;
 `;
 
@@ -109,7 +109,7 @@ const Clouds = ({period, sizeMultiplier, width, height, animationDuration, strok
     return () => {
       clearInterval(cloudInterval);
     };
-  });
+  }, [clds, period, sizeMultiplier, width, height, animationDuration, strokeColor]);
   return (
     <Container width={width} height={height}>
       {clds.map((cloud, idx) => {
@@ -139,7 +139,7 @@ Clouds.defaultProps = {
   width: '100vw',
   height: 500,
   animationDuration: 50,
-  strokeColor: '#ccebff',
+  strokeColor: '#e6f7ff',
 }
 
 export default Clouds;
